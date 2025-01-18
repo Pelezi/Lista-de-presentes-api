@@ -22,7 +22,7 @@ export class GiftControllerImpl
         super(giftService);
     }
 
-    public async getByUser(req: Request, res: Response): Promise<Response> {
+    public async getByGuest(req: Request, res: Response): Promise<Response> {
         const { guestId } = req.params;
         const gifts = await this.giftService.getByGuest(guestId);
         return res.json(gifts);

@@ -7,8 +7,6 @@ import {
 } from "../../../../../dtos/GiftDTO";
 
 import { BaseRepositoryImpl } from '../../../../../../base/BaseRepositoryImpl';
-import { FindOptionsWhere } from "typeorm";
-import { subDays } from "date-fns";
 
 export class GiftRepositoryImpl
     extends BaseRepositoryImpl<GiftDTO, CreateGiftDTO, UpdateGiftDTO> {
