@@ -6,7 +6,7 @@ import userRouter from '../../../modules/auth/user/api/routes/user.routes';
 import companyRouter from '../../../modules/account/company/api/routes/company.routes';
 import typeRouter from '../../../modules/account/type/api/routes/type.routes';
 import priceRouter from '../../../modules/catalog/price/api/routes/price.routes';
-import productRouter from '../../../modules/gift/api/routes/product.routes';
+import productRouter from '../../../modules/gift/api/routes/gift.routes';
 import offerRouter from '../../../modules/catalog/offer/api/routes/offer.routes';
 import editUserRouter from '../../../modules/editUser/api/routes/editUserController.routes';
 

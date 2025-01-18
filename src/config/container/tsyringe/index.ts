@@ -5,7 +5,7 @@ import { CompanyControllerImpl } from "../../../modules/account/company/api/cont
 import { TypeControllerImpl } from "../../../modules/account/type/api/controllers/impl/TypeControllerImpl";
 import { PersonControllerImpl} from "../../../modules/account/person/api/controllers/impl/PersonControllerImpl"
 import { PriceControllerImpl } from "../../../modules/catalog/price/api/controllers/impl/PriceControllerImpl";
-import { ProductControllerImpl } from "../../../modules/gift/api/controllers/impl/ProductControllerImpl";
+import { ProductControllerImpl } from "../../../modules/gift/api/controllers/impl/GiftControllerImpl";
 import { OfferControllerImpl } from "../../../modules/catalog/offer/api/controllers/impl/OfferControllerImpl";
 import { EditUserControllerImpl } from "../../../modules/editUser/api/controllers/impl/EditUserControllerImpl";
 
@@ -16,8 +16,8 @@ import { CompanyServiceImpl } from "../../../modules/account/company/business/se
 import { TypeServiceImpl } from "../../../modules/account/type/business/services/impl/TypeServiceImpl";
 import { PersonServiceImpl} from "../../../modules/account/person/business/services/impl/PersonServiceImpl"
 import { PriceServiceImpl } from "../../../modules/catalog/price/business/services/impl/PriceServiceImpl";
-import { ProductServiceImpl } from "../../../modules/gift/business/services/impl/ProductServiceImpl";
-import { ProductService } from "../../../modules/gift/business/services/ProductService";
+import { ProductServiceImpl } from "../../../modules/gift/business/services/impl/GiftServiceImpl";
+import { ProductService } from "../../../modules/gift/business/services/GiftService";
 import { OfferServiceImpl } from "../../../modules/catalog/offer/business/services/impl/OfferServiceImpl";
 
 import { AddressRepositoryImpl } from "../../../modules/account/address/database/repositories/impl/typeorm/repositories/AddressRepositoryImpl";
@@ -26,7 +26,7 @@ import { TypeRepositoryImpl } from "../../../modules/account/type/database/repos
 import { CompanyRepositoryImpl } from "../../../modules/account/company/database/repositories/impl/typeorm/repositories/CompanyRepositoryImpl";
 import { PersonRepositoryImpl} from "../../../modules/account/person/database/repositories/impl/typeorm/repositories/PersonRepositoryImpl"
 import { PriceRepositoryImpl } from "../../../modules/catalog/price/database/repositories/impl/typeorm/repositories/PriceRepositoryImpl";
-import { ProductRepositoryImpl } from "../../../modules/gift/database/repositories/impl/typeorm/repositories/ProductRepositoryImpl";
+import { ProductRepositoryImpl } from "../../../modules/gift/database/repositories/impl/typeorm/repositories/GiftRepositoryImpl";
 import { OfferRepositoryImpl } from "../../../modules/catalog/offer/database/repositories/impl/typeorm/repositories/OfferRepositoryImpl";
 
 
