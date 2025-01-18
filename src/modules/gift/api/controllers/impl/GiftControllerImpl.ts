@@ -34,4 +34,16 @@ export class GiftControllerImpl
         return res.json(gift);
     }
 
+    public async addGiftToGuest(req: Request, res: Response): Promise<Response> {
+        const { giftId, guestId } = req.params;
+        const gift = await this.giftService.addGiftToGuest(giftId, guestId);
+        return res.json(gift);
+    }
+
+    public async removeGiftFromGuest(req: Request, res: Response): Promise<Response> {
+        const { giftId, guestId } = req.params;
+        await this.giftService.removeGiftFromGuest(giftId, guestId);
+        return res.status(204).send();
+    }
+
 }

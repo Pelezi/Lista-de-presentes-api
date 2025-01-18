@@ -15,10 +15,6 @@ export class BaseRepositoryImpl<T, U, V> implements BaseRepository<T, U, V> {
         this.typeormRepository = dataSource.getRepository(entityType);
     }
 
-    /* async getItems(): Promise<T[]> {
-        return await this.typeormRepository.find();
-    } */
-
     async getItems(): Promise<T[]> {
         const metadata = this.typeormRepository.metadata;
         const hasCreatedAtColumn = metadata.columns.some(column => column.propertyName === 'createdAt');
@@ -33,18 +29,17 @@ export class BaseRepositoryImpl<T, U, V> implements BaseRepository<T, U, V> {
         }
     }
     
+    async findOne(condition: FindOptionsWhere<T>): Promise<T | null> {
+        return await this.typeormRepository.findOne({ where: condition });
+    }
     
-    
-    
-    
-
     async getItemById(id: number): Promise<T> {
         const item =  await this.typeormRepository.findOne({ 
             where: { [this.primaryKey]: id } as FindOptionsWhere<T> 
         });
 
         if (!item) {
-            throw new Error(`Register not found!`);
+            throw new Error(`Registro não encontrado!`);
         }
         
         return item;
@@ -56,7 +51,7 @@ export class BaseRepositoryImpl<T, U, V> implements BaseRepository<T, U, V> {
         });
 
         if (!item) {
-            throw new Error(`Register not found!`);
+            throw new Error(`Registro não encontrado!`);
         }
 
         return item;

@@ -1,6 +1,5 @@
 import { Guest } from "../../../../../../guest/database/repositories/impl/typeorm/entities/guest.entity";
-import { Entity, Column, PrimaryGeneratedColumn, ManyToMany, JoinTable } from "typeorm";
-
+import { Entity, Column, PrimaryGeneratedColumn, ManyToMany, JoinTable, OneToMany, ManyToOne } from "typeorm";
 
 @Entity()
 export class Gift {
@@ -20,8 +19,21 @@ export class Gift {
     @Column()
     description: string;
     
-    @ManyToMany(() => Guest, (guest) => guest.gifts)
-    @JoinTable()
-    guests: Guest[];
+    @OneToMany(() => GiftGuest, giftGuest => giftGuest.gift)
+    guests: GiftGuest[];
+}
 
+@Entity()
+export class GiftGuest {
+    @PrimaryGeneratedColumn("uuid")
+    id: string;
+
+    @ManyToOne(() => Gift, gift => gift.guests)
+    gift: Gift;
+
+    @ManyToOne(() => Guest, guest => guest.gifts)
+    guest: Guest;
+
+    @Column()
+    count: number;
 }

@@ -10,4 +10,6 @@ export interface GiftRepository
     extends BaseRepository<GiftDTO, CreateGiftDTO, UpdateGiftDTO> {
         getByGuest(guestId: string): Promise<GiftDTO[]>;
         getAllInfo(giftId: string): Promise<GiftDTO>;
+        addGiftToGuest(giftId: string, guestId: string): Promise<GiftDTO>;
+        removeGiftFromGuest(giftId: string, guestId: string): Promise<void>;
     }

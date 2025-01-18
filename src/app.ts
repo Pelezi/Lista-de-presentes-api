@@ -6,8 +6,6 @@ import "express-async-errors";
 import "./config/env/dotenv";
 import "./config/database/typeorm";
 import "./config/container/tsyringe";
-import "./modules/externalSearches/conab/transfer/transferData";
-import "./modules/externalSearches/conab/transfer/updateData";
 
 import express from "express";
 import cors from "cors";

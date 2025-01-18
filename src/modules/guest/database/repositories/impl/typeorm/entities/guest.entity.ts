@@ -1,5 +1,5 @@
-import { Gift } from "../../../../../../gift/database/repositories/impl/typeorm/entities/gift.entity";
-import { Entity, Column, PrimaryGeneratedColumn, ManyToMany } from "typeorm";
+import { Gift, GiftGuest } from "../../../../../../gift/database/repositories/impl/typeorm/entities/gift.entity";
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from "typeorm";
 
 
 @Entity()
@@ -14,7 +14,7 @@ export class Guest {
     @Column()
     phone: string;
 
-    @ManyToMany(() => Gift, (gift) => gift.guests)
+    @OneToMany(() => GiftGuest, giftGuest => giftGuest.guest)
     gifts: Gift[];
 
 }

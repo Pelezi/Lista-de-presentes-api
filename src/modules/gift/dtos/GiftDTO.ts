@@ -4,7 +4,15 @@ export class GiftDTO {
     photoUrl: string;
     quantity: number;
     description: string;
+    guests: {
+        count: number;
+        guest: {
+            id: string;
+            name: string;
+            phone: string;
+        };
+    }[];
 }
 
-export type CreateGiftDTO = Omit<GiftDTO, 'id' >;
+export type CreateGiftDTO = Omit<GiftDTO, 'id' | 'guests'>;
 export type UpdateGiftDTO = Partial<GiftDTO>;

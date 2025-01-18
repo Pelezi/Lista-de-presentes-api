@@ -32,4 +32,8 @@ export class GuestServiceImpl
     async getAllInfo(guestId: string): Promise<GuestDTO> {
         return this.guestRepository.getAllInfo(guestId);
     }
+
+    async getByPhoneAndName(phone: string, name: string): Promise<GuestDTO> {
+        return this.guestRepository.getByPhoneAndName(phone, name);
+    }
 }

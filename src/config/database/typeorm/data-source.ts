@@ -1,4 +1,3 @@
-import { Conab } from "modules/externalSearches/conab/entities/conab.entity";
 import { DataSource } from "typeorm";
 import { SnakeNamingStrategy } from "typeorm-naming-strategies";
 

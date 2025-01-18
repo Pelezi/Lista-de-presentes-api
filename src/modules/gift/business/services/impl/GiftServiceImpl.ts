@@ -32,4 +32,12 @@ export class GiftServiceImpl
     async getAllInfo(giftId: string): Promise<GiftDTO> {
         return this.giftRepository.getAllInfo(giftId);
     }
+
+    async addGiftToGuest(giftId: string, guestId: string): Promise<GiftDTO> {
+        return this.giftRepository.addGiftToGuest(giftId, guestId);
+    }
+
+    async removeGiftFromGuest(giftId: string, guestId: string): Promise<void> {
+        await this.giftRepository.removeGiftFromGuest(giftId, guestId);
+    }
 }
