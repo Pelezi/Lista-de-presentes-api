@@ -54,24 +54,21 @@ export class GuestRepositoryImpl
         return guest;
     }
 
-    async getByPhoneAndName(phone: string, name: string): Promise<GuestDTO> {
+    async guestAccess(phone: string, name: string): Promise<GuestDTO> {
         const guest = await this.typeormRepository.findOne({
             where: { phone, name }
         });
 
         if (!guest) {
-            throw new Error(`Convidada não encontrada!`);
+            const existingGuest = await this.findOne({ phone } as FindOptionsWhere<GuestDTO>);
+            if (existingGuest) {
+                throw new Error(`Convidada com o número de celular ${phone} já existe!`);
+            } else {
+                return super.createItem({ phone, name });
+            }
         }
 
         return guest;
-    }
-
-    async createItem(item: CreateGuestDTO): Promise<GuestDTO> {
-        const existingGuest = await this.findOne({ phone: item.phone } as FindOptionsWhere<GuestDTO>);
-        if (existingGuest) {
-            throw new Error(`Convidada com o número de celular ${item.phone} já existe!`);
-        }
-        return super.createItem(item);
     }
 
 }

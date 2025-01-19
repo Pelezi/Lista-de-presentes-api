@@ -34,9 +34,9 @@ export class GuestControllerImpl
         return res.json(guest);
     }
 
-    public async getByPhoneAndName(req: Request, res: Response): Promise<Response> {
+    public async guestAccess(req: Request, res: Response): Promise<Response> {
         const { phone, name } = req.params;
-        const guest = await this.guestService.getByPhoneAndName(phone, name);
+        const guest = await this.guestService.guestAccess(phone, name);
         return res.json(guest);
     }
 

@@ -10,5 +10,5 @@ export interface GuestRepository
     extends BaseRepository<GuestDTO, CreateGuestDTO, UpdateGuestDTO> {
         getByGift(giftId: string): Promise<GuestDTO[]>;
         getAllInfo(guestId: string): Promise<GuestDTO>;
-        getByPhoneAndName(phone: string, name: string): Promise<GuestDTO>;
+        guestAccess(phone: string, name: string): Promise<GuestDTO>;
     }

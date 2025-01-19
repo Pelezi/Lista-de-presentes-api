@@ -33,7 +33,7 @@ export class GuestServiceImpl
         return this.guestRepository.getAllInfo(guestId);
     }
 
-    async getByPhoneAndName(phone: string, name: string): Promise<GuestDTO> {
-        return this.guestRepository.getByPhoneAndName(phone, name);
+    async guestAccess(phone: string, name: string): Promise<GuestDTO> {
+        return this.guestRepository.guestAccess(phone, name);
     }
 }

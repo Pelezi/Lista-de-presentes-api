@@ -12,7 +12,7 @@ const guestController: GuestController = container.resolve('GuestController');
 
 guestRouter.get('/info/:guestId', (req, res) => guestController.getAllInfo(req, res));
 guestRouter.get('/user/:userId', (req, res) => guestController.getByGift(req, res));
-guestRouter.get('/phone/:phone/name/:name', (req, res) => guestController.getByPhoneAndName(req, res));
+guestRouter.post('/phone/:phone/name/:name', (req, res) => guestController.guestAccess(req, res));
 guestRouter.use('/', baseRoutes(guestController));
 
 export default guestRouter;
