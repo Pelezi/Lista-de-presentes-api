@@ -117,4 +117,37 @@ export class GiftRepositoryImpl
             throw new Error(`Convidado não associado a este presente!`);
         }
     }
+
+    async getItems(): Promise<GiftDTO[]> {
+        const gifts = await this.typeormRepository.createQueryBuilder('gift')
+            .leftJoin('gift.guests', 'guests')
+            .leftJoin('guests.guest', 'guest')
+            .select([
+                'gift.id',
+                'gift.name',
+                'gift.photoUrl',
+                'gift.quantity',
+                'gift.description',
+                'COALESCE(SUM(guests.count), 0) as totalCount',
+            ])
+            .groupBy('gift.id')
+            .orderBy('CASE WHEN COALESCE(SUM(guests.count), 0) >= gift.quantity THEN 1 ELSE 0 END', 'ASC')
+            .addOrderBy('COALESCE(SUM(guests.count), 0)', 'ASC')
+            .getRawMany();
+
+        if (!gifts) {
+            throw new Error(`Registro não encontrado!`);
+        }
+
+        return gifts.map(gift => ({
+            id: gift.gift_id,
+            name: gift.gift_name,
+            photoUrl: gift.gift_photo_url,
+            quantity: gift.gift_quantity,
+            description: gift.gift_description,
+            guests: [],
+            count: Number(gift.totalcount),
+        }));
+    }
+
 }
