@@ -19,6 +19,14 @@ export class GiftRepositoryImpl
         const gifts = await this.typeormRepository.createQueryBuilder('gift')
             .leftJoin('gift.guests', 'guests')
             .leftJoin('guests.guest', 'guest')
+            .select([
+                'gift.id',
+                'gift.name',
+                'gift.photoUrl',
+                'gift.quantity',
+                'gift.description',
+                'guests.count',
+            ])
             .where('guest.id = :guestId', { guestId })
             .getMany();
 
