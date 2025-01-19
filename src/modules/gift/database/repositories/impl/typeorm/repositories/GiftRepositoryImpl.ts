@@ -17,7 +17,8 @@ export class GiftRepositoryImpl
 
     async getByGuest(guestId: string): Promise<GiftDTO[]> {
         const gifts = await this.typeormRepository.createQueryBuilder('gift')
-            .leftJoin('gift.guests', 'guest')
+            .leftJoin('gift.guests', 'guests')
+            .leftJoin('guests.guest', 'guest')
             .where('guest.id = :guestId', { guestId })
             .getMany();
 
