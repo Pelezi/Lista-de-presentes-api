@@ -19,7 +19,7 @@ export class Gift {
     @Column()
     description: string;
     
-    @OneToMany(() => GiftGuest, giftGuest => giftGuest.gift)
+    @OneToMany(() => GiftGuest, giftGuest => giftGuest.gift, { cascade: true, onDelete: 'CASCADE' })
     guests: GiftGuest[];
 }
 
@@ -28,7 +28,7 @@ export class GiftGuest {
     @PrimaryGeneratedColumn("uuid")
     id: string;
 
-    @ManyToOne(() => Gift, gift => gift.guests)
+    @ManyToOne(() => Gift, gift => gift.guests, { onDelete: 'CASCADE' })
     gift: Gift;
 
     @ManyToOne(() => Guest, guest => guest.gifts)
