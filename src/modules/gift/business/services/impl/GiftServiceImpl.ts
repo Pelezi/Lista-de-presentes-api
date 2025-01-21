@@ -40,4 +40,5 @@ export class GiftServiceImpl
     async removeGiftFromGuest(giftId: string, guestId: string): Promise<void> {
         await this.giftRepository.removeGiftFromGuest(giftId, guestId);
     }
+
 }

@@ -46,4 +46,26 @@ export class GiftControllerImpl
         return res.status(204).send();
     }
 
+    public async createItem(req: Request, res: Response): Promise<Response> {
+        const { guestId } = req.query;
+        const createGiftDTO: CreateGiftDTO = { ...req.body, guestId: guestId as string };
+        const gift = await this.giftService.createItem(createGiftDTO);
+        return res.json(gift);
+    }
+
+    public async updateItemByUuid(req: Request, res: Response): Promise<Response> {
+        const { uuid } = req.params;
+        const { guestId } = req.query;
+        const updateGiftDTO: UpdateGiftDTO = { ...req.body, guestId: guestId as string };
+        const gift = await this.giftService.updateItemByUuid(uuid, updateGiftDTO);
+        return res.json(gift);
+    }
+
+    public async deleteItemByUuid(req: Request, res: Response): Promise<Response> {
+        const { uuid } = req.params;
+        const { guestId } = req.query;
+        await this.giftService.deleteItemByUuid(uuid, guestId as string);
+        return res.status(204).send();
+    }
+
 }

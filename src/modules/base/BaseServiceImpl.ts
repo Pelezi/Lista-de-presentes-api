@@ -39,7 +39,7 @@ export class BaseServiceImpl<T, U, V> implements BaseService<T, U, V> {
         return this.baseRepository.deleteItem(id);
     }
 
-    async deleteItemByUuid(uuid: string): Promise<void> {
-        return this.baseRepository.deleteItemByUuid(uuid);
+    async deleteItemByUuid(uuid: string, item: string): Promise<void> {
+        return this.baseRepository.deleteItemByUuid(uuid, item);
     }
 }

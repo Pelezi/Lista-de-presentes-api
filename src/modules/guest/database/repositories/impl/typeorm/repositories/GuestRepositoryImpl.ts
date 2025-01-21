@@ -1,5 +1,7 @@
 import { Guest } from "../entities/guest.entity";
 
+import { sendTelegramMessage } from "config/telegram-bot-api";
+
 import {
     GuestDTO,
     CreateGuestDTO,
@@ -71,7 +73,9 @@ export class GuestRepositoryImpl
             if (existingGuest) {
                 throw new Error(`Convidada com o número de celular ${phone} já existe!`);
             } else {
-                return super.createItem({ phone, name });
+                const newGuest = await super.createItem({ phone, name });
+                sendTelegramMessage('newGuest', name, null);
+                return newGuest;
             }
         }
 

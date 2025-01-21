@@ -77,13 +77,12 @@ export class BaseRepositoryImpl<T, U, V> implements BaseRepository<T, U, V> {
     }
 
     async deleteItem(id: number): Promise<void> {
-        const item = await this.getItemById(id);
 
         await this.typeormRepository.delete(id);
     }
 
-    async deleteItemByUuid(uuid: string): Promise<void> {
-        const item = await this.getItemByUuid(uuid);
+    async deleteItemByUuid(uuid: string, item: string): Promise<void> {
+        console.log("item:", item);
 
         await this.typeormRepository.delete(uuid);
     }

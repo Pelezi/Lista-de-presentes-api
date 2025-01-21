@@ -12,6 +12,7 @@ export class GiftDTO {
             phone: string;
         };
     }[];
+    guestId?: string;
 }
 
 export type CreateGiftDTO = Omit<GiftDTO, 'id' | 'guests'>;

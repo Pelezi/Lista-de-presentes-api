@@ -1,11 +1,10 @@
 import { Gift, GiftGuest } from "../entities/gift.entity";
-
+import { sendTelegramMessage } from "config/telegram-bot-api";
 import {
     GiftDTO,
     CreateGiftDTO,
     UpdateGiftDTO
 } from "../../../../../dtos/GiftDTO";
-
 import { BaseRepositoryImpl } from '../../../../../../base/BaseRepositoryImpl';
 
 export class GiftRepositoryImpl
@@ -92,6 +91,9 @@ export class GiftRepositoryImpl
         } else if (!addedGift.guests) {
             throw new Error(`Erro ao salvar o presente!`);
         } else {
+            const guest = addedGift.guests.find(g => g.guest.id === guestId);
+            const guestName = guest ? guest.guest.name : 'Convidado';
+            sendTelegramMessage('addGiftToGuest', guestName, gift.name);
             return addedGift;
         }
     }
@@ -113,6 +115,10 @@ export class GiftRepositoryImpl
             } else {
                 await giftGuestRepository.save(giftGuest);
             }
+
+            const guest = gift.guests.find(g => g.guest.id === guestId);
+            const guestName = guest ? guest.guest.name : 'Convidado';
+            sendTelegramMessage('removeGiftFromGuest', guestName, gift.name);
         } else {
             throw new Error(`Convidado não associado a este presente!`);
         }
@@ -150,4 +156,41 @@ export class GiftRepositoryImpl
         }));
     }
 
+    async createItem(item: CreateGiftDTO): Promise<GiftDTO> {
+        const newItem = this.typeormRepository.create(item as CreateGiftDTO);
+        const savedItem = await this.typeormRepository.save(newItem);
+
+        const guest = await this.typeormRepository.manager.getRepository('Guest').findOne({ where: { id: item.guestId } });
+        const chat = guest.phone === '81998625899' ? 2 : guest.phone === '81997250606' ? 1 : null;
+        sendTelegramMessage('createGift', guest.name, item.name, chat);
+
+        return savedItem;
+    }
+
+    async updateItemByUuid(id: string, item: UpdateGiftDTO): Promise<GiftDTO> {
+        const guest = await this.typeormRepository.manager.getRepository('Guest').findOne({ where: { id: item.guestId } });
+        // remove guestId from item
+        delete item.guestId;
+        console.log("item:", item);
+        await this.typeormRepository.update(id, item);
+        console.log("updated");
+        const updatedItem = await this.typeormRepository.findOne({ 
+            where: { id: String(id) } 
+        });
+
+        const chat = guest.phone === '81998625899' ? 2 : guest.phone === '81997250606' ? 1 : null;
+        sendTelegramMessage('updateGift', guest.name, item.name, chat);
+
+        return updatedItem;
+    }
+
+    async deleteItemByUuid(id: string, item: string): Promise<void> {
+        console.log("item:", item);
+        const gift = await this.typeormRepository.findOne({ where: { id } });
+        const guest = await this.typeormRepository.manager.getRepository('Guest').findOne({ where: { id: item } });
+        const chat = guest.phone === '81998625899' ? 2 : guest.phone === '81997250606' ? 1 : null;
+        sendTelegramMessage('deleteGift', guest.name, gift.name, chat);
+
+        await this.typeormRepository.delete(id);
+    }
 }
