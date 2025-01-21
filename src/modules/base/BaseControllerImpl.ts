@@ -54,7 +54,8 @@ export class BaseControllerImpl<T, U, V> implements BaseController {
 
     public async deleteItemByUuid(req: Request, res: Response): Promise<Response> {
         const { uuid } = req.params;
-        await this.baseService.deleteItemByUuid(String(uuid));
+        const item = req.query;
+        await this.baseService.deleteItemByUuid(String(uuid), item as unknown as string);
         return res.status(204).send();
     }
 
