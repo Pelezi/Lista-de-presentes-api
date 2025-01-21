@@ -1,5 +1,5 @@
 import { Gift, GiftGuest } from "../entities/gift.entity";
-import { sendTelegramMessage } from "config/telegram-bot-api";
+import { sendTelegramMessage } from "../../../../../../../config/telegram-bot-api";
 import {
     GiftDTO,
     CreateGiftDTO,

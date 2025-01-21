@@ -1,6 +1,6 @@
 import { Guest } from "../entities/guest.entity";
 
-import { sendTelegramMessage } from "config/telegram-bot-api";
+import { sendTelegramMessage } from "../../../../../../../config/telegram-bot-api";
 
 import {
     GuestDTO,
