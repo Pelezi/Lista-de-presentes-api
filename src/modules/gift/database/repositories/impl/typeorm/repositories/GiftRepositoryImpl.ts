@@ -195,8 +195,8 @@ export class GiftRepositoryImpl
     }
 
     async telegramMessage(type: string, guest: string): Promise<void> {
-        const action = type === 'bio' ? 'encontrou a T.A.R.D.I.S. escondida' : type === 'rickroll' ? 'foi rickrollado' : 'realizou uma ação desconhecida';
-        const icon = type === 'bio' ? '\ud83d\ude80' : type === 'rickroll' ? '\uD83D\uDD7A' : '\u26a0';
+        const action = type === 'bio' ? 'encontrou a T.A.R.D.I.S. escondida' : 'realizou uma ação desconhecida';
+        const icon = type === 'bio' ? '\ud83d\ude80' : '\u26a0';
         const message = `${icon} ${guest} ${action}!`;
 
         sendTelegramMessage('custom', guest, 'custom', 1, message);
