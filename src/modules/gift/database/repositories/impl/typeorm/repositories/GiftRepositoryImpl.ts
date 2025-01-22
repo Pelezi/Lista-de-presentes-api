@@ -125,7 +125,7 @@ export class GiftRepositoryImpl
     }
 
     async getItems(): Promise<GiftDTO[]> {
-        const gifts = await this.typeormRepository.createQueryBuilder('gift')
+        const queryBuilder = this.typeormRepository.createQueryBuilder('gift')
             .leftJoin('gift.guests', 'guests')
             .leftJoin('guests.guest', 'guest')
             .select([
@@ -137,9 +137,15 @@ export class GiftRepositoryImpl
                 'COALESCE(SUM(guests.count), 0) as totalCount',
             ])
             .groupBy('gift.id')
-            .orderBy('CASE WHEN COALESCE(SUM(guests.count), 0) >= gift.quantity THEN 1 ELSE 0 END', 'ASC')
-            .addOrderBy('COALESCE(SUM(guests.count), 0)', 'ASC')
-            .getRawMany();
+            .orderBy('CASE WHEN COALESCE(SUM(guests.count), 0) = 0 THEN 0 ELSE 1 END', 'ASC')
+            .addOrderBy('CASE WHEN COALESCE(SUM(guests.count), 0) >= gift.quantity THEN 1 ELSE 0 END', 'ASC')
+            .addOrderBy('COALESCE(SUM(guests.count), 0)', 'ASC');
+
+        const [query, parameters] = queryBuilder.getQueryAndParameters();
+        console.log('Generated SQL Query:', query);
+        console.log('Query Parameters:', parameters);
+
+        const gifts = await queryBuilder.getRawMany();
 
         if (!gifts) {
             throw new Error(`Registro não encontrado!`);
