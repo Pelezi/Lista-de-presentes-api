@@ -63,7 +63,7 @@ export class GiftRepositoryImpl
 
     async addGiftToGuest(giftId: string, guestId: string): Promise<GiftDTO> {
         const gift = await this.getAllInfo(giftId);
-        
+
         if (!gift) {
             throw new Error(`Registro não encontrado!`);
         }
@@ -72,7 +72,7 @@ export class GiftRepositoryImpl
         if (totalGuestCount >= gift.quantity) {
             throw new Error(`Este presente não pode mais ser resgatado.`);
         }
-        
+
         const giftGuestRepository = this.typeormRepository.manager.getRepository(GiftGuest);
         let giftGuest = await giftGuestRepository.findOne({ where: { gift: { id: giftId }, guest: { id: guestId } } });
 
@@ -125,7 +125,7 @@ export class GiftRepositoryImpl
     }
 
     async getItems(): Promise<GiftDTO[]> {
-        const queryBuilder = this.typeormRepository.createQueryBuilder('gift')
+        const gifts = await this.typeormRepository.createQueryBuilder('gift')
             .leftJoin('gift.guests', 'guests')
             .leftJoin('guests.guest', 'guest')
             .select([
@@ -139,13 +139,8 @@ export class GiftRepositoryImpl
             .groupBy('gift.id')
             .orderBy('CASE WHEN COALESCE(SUM(guests.count), 0) = 0 THEN 0 ELSE 1 END', 'ASC')
             .addOrderBy('CASE WHEN COALESCE(SUM(guests.count), 0) >= gift.quantity THEN 1 ELSE 0 END', 'ASC')
-            .addOrderBy('COALESCE(SUM(guests.count), 0)', 'ASC');
-
-        const [query, parameters] = queryBuilder.getQueryAndParameters();
-        console.log('Generated SQL Query:', query);
-        console.log('Query Parameters:', parameters);
-
-        const gifts = await queryBuilder.getRawMany();
+            .addOrderBy('COALESCE(SUM(guests.count), 0)', 'ASC')
+            .getRawMany();
 
         if (!gifts) {
             throw new Error(`Registro não encontrado!`);
@@ -180,8 +175,8 @@ export class GiftRepositoryImpl
         console.log("item:", item);
         await this.typeormRepository.update(id, item);
         console.log("updated");
-        const updatedItem = await this.typeormRepository.findOne({ 
-            where: { id: String(id) } 
+        const updatedItem = await this.typeormRepository.findOne({
+            where: { id: String(id) }
         });
 
         const chat = guest.phone === '81998625899' ? 2 : guest.phone === '81997250606' ? 1 : null;
@@ -191,7 +186,6 @@ export class GiftRepositoryImpl
     }
 
     async deleteItemByUuid(id: string, item: string): Promise<void> {
-        console.log("item:", item);
         const gift = await this.typeormRepository.findOne({ where: { id } });
         const guest = await this.typeormRepository.manager.getRepository('Guest').findOne({ where: { id: item } });
         const chat = guest.phone === '81998625899' ? 2 : guest.phone === '81997250606' ? 1 : null;
@@ -199,4 +193,14 @@ export class GiftRepositoryImpl
 
         await this.typeormRepository.delete(id);
     }
+
+    async telegramMessage(type: string, guest: string): Promise<void> {
+        const action = type === 'bio' ? 'encontrou a T.A.R.D.I.S. escondida' : type === 'rickroll' ? 'foi rickrollado' : 'realizou uma ação desconhecida';
+        const icon = type === 'bio' ? '\ud83d\ude80' : type === 'rickroll' ? '\uD83D\uDD7A' : '\u26a0';
+        const message = `${icon} ${guest} ${action}!`;
+
+        sendTelegramMessage('custom', guest, 'custom', 1, message);
+
+    }
+
 }

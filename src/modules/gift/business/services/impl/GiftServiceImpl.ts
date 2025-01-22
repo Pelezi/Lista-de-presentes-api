@@ -41,4 +41,8 @@ export class GiftServiceImpl
         await this.giftRepository.removeGiftFromGuest(giftId, guestId);
     }
 
+    async telegramMessage(type: string, guest: string): Promise<void> {
+        await this.giftRepository.telegramMessage(type, guest);
+    }
+
 }

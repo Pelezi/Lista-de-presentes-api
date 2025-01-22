@@ -6,4 +6,5 @@ export interface GiftController extends BaseController {
     getAllInfo(req: Request, res: Response): Promise<Response>;
     addGiftToGuest(req: Request, res: Response): Promise<Response>;
     removeGiftFromGuest(req: Request, res: Response): Promise<Response>;
+    telegramMessage(req: Request, res: Response): Promise<Response>;
 }

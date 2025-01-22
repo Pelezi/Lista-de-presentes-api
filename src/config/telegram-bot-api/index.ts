@@ -6,7 +6,7 @@ const CHAT_ID2 = process.env.TELEGRAM_CHAT_ID2;
 
 const bot = new telegramBot(BOT_TOKEN);
 
-async function sendTelegramMessage(route,  guest, gift?, chat?) {
+async function sendTelegramMessage(route,  guest, gift?, chat?, customMessage?) {
     const action = 
     route === 'addGiftToGuest' ? `escolheu o presente ${gift}`
     : route === 'removeGiftFromGuest' ? `removeu o presente ${gift} da sua lista de presentes escolhidos`
@@ -14,6 +14,7 @@ async function sendTelegramMessage(route,  guest, gift?, chat?) {
     : route === 'createGift' ? `criou o presente ${gift}`
     : route === 'updateGift' ? `atualizou o presente ${gift}`
     : route === 'deleteGift' ? `deletou o presente ${gift}`
+    : route === 'custom' ? ''
     : 'realizou uma ação desconhecida';
     const icon = route === 'addGiftToGuest' ? '\ud83d\uded2' : 
     route === 'removeGiftFromGuest' ? '\u274c'
@@ -21,16 +22,26 @@ async function sendTelegramMessage(route,  guest, gift?, chat?) {
     : route === 'createGift' ? '\ud83c\udf81'
     : route === 'updateGift' ? '\ud83d\udd04'
     : route === 'deleteGift' ? '\ud83d\uddd1'
+    : route === 'custom' ? ''
     : '\u26a0';
-    const message = `${icon} ${guest} ${action}!`;
+
+    let message = ''
+    if (route === 'custom') {
+        message = customMessage;
+    } else {
+        message = `${icon} ${guest} ${action}!`;
+    }
 
     if (chat === 1) {
         bot.sendMessage(CHAT_ID1, message);
+        console.log('Sent message to chat 1');
     } else if (chat === 2) {
         bot.sendMessage(CHAT_ID2, message);
+        console.log('Sent message to chat 2');
     } else {
         bot.sendMessage(CHAT_ID1, message);
         bot.sendMessage(CHAT_ID2, message);
+        console.log('Sent message to both chats');
     }
 }
 

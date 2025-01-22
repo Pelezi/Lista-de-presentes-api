@@ -12,4 +12,5 @@ export interface GiftService
         getAllInfo(giftId: string): Promise<GiftDTO>;
         addGiftToGuest(giftId: string, guestId: string): Promise<GiftDTO>;
         removeGiftFromGuest(giftId: string, guestId: string): Promise<void>;
+        telegramMessage(type:string, guest: string): Promise<void>;
     }
