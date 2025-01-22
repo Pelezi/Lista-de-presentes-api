@@ -34,14 +34,11 @@ async function sendTelegramMessage(route,  guest, gift?, chat?, customMessage?) 
 
     if (chat === 1) {
         bot.sendMessage(CHAT_ID1, message);
-        console.log('Sent message to chat 1');
     } else if (chat === 2) {
         bot.sendMessage(CHAT_ID2, message);
-        console.log('Sent message to chat 2');
     } else {
         bot.sendMessage(CHAT_ID1, message);
         bot.sendMessage(CHAT_ID2, message);
-        console.log('Sent message to both chats');
     }
 }
 

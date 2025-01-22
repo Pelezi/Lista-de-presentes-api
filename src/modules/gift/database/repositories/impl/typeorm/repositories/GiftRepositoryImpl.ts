@@ -199,7 +199,7 @@ export class GiftRepositoryImpl
         const icon = type === 'bio' ? '\ud83d\ude80' : type === 'rickroll' ? '\uD83D\uDD7A' : '\u26a0';
         const message = `${icon} ${guest} ${action}!`;
 
-        sendTelegramMessage('custom', guest, 'custom', 1, message);
+        sendTelegramMessage('custom', guest, 'custom', 3, message);
 
     }
 
